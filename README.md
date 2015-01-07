@@ -1,5 +1,7 @@
 # CAT 125 Final Project
 
+> Hosted at [nonlogicaldev](http://cat125.nonlogicaldev.com)
+
 This is my final project for CAT 125 class at UCSD. The website is about
 Demoscene and graphics, written in AngularJS and NodeJS.
 
@@ -15,3 +17,4 @@ $ gulp server
 ```
 
 And then point your browser to localhost:3000
+
