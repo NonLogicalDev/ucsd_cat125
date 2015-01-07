@@ -1,0 +1,9 @@
+.dm-herounit
+  .dm-img(style="background: url('{{background}}') center;")
+  .dm-overimage
+    .dm-caption.clearfix
+      h2 {{title}}
+
+.container
+  h1.dm-header {{fulltitle}}
+  .dm-body.clearfix(ng-bind-html="text")

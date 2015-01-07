@@ -1,0 +1,16 @@
+.dm-herounit
+  .dm-img
+  .dm-overimage
+    .dm-caption.clearfix
+      h2 My Posts
+
+.container
+  h1.dm-header Available Pages
+
+  .well.dm-link.clearfix(ng-repeat="post in posts")
+    .col-sm-3.col-xs-5
+      img.dm-thumbnail.img-responsive(src="/s/assets/{{post.thumbnail}}")
+    .col-sm-9.col-xs-7(style="padding-left: 0; padding-right: 0;")
+      a.dm-link-target(ui-sref="{{post.state}}({{post.params}})") {{post.name}}
+      .dm-description
+        p {{post.description}}

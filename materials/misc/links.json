@@ -1,0 +1,63 @@
+{
+  "links": [
+    {
+      "name": "Udacity Three.js Course",
+      "thumbnail": "link_udacity.png",
+      "description": [
+        "It is very hard to start with graphics. I myself on multiple occasions",
+        "have tried to go through the guides on the internet, but in the end",
+        "I ended up getting overwhelmed very quickly by examples they were giving.",
+        "There aren't many well organised and well made tutorials on the topic, but ",
+        "after trying this course out I got a decent foundation, from which I was able",
+        "to build up a deeper understanding of graphical programming."
+      ],
+      "link": "https://www.udacity.com/course/cs291"
+    },
+    {
+      "name": "ShaderToy",
+      "thumbnail": "link_shaderToy.png",
+      "description": [
+        "This is a great website for learning how to write fragment shaders.",
+        "Though, it might seem a little daunting at first, writing shaders",
+        "that are not linked to the geometry is quite fun. I would say",
+        "writing shaders this way is better suited for beginners, since it",
+        "rids you of many headaches related to making it work with meshes,",
+        "and instead lets you focus on learning shaders themselves."
+      ],
+      "link": "http://www.shadertoy.com"
+    },
+    {
+      "name": "Pouet",
+      "thumbnail": "link_pouet.jpg",
+      "description": [
+        "One you get your appetite going, here is the biggest collection",
+        "of demo productions. This is a place to go to if you want to be inspired."
+      ],
+      "link": "http://www.shadertoy.com"
+    },
+    {
+      "name": "Trauma Demo",
+      "thumbnail": "link_trauma.png",
+      "description": [
+        "A ridiculously cool demo that shows just how far some people can",
+        "push the possibilities. This whole demo is displayed in text, not",
+        "even in pixels, and yet still manages to look ridiculously impressive."
+      ],
+      "link": "https://www.youtube.com/watch?v=Kjknm6wKsrU"
+    },
+    {
+      "name": "Ciptunes",
+      "thumbnail": "link_chiptune.jpg",
+      "description": [
+        "Those of you that are more interested in music this is an awesome",
+        "Soundcloud group that I have been following for a while. They have",
+        "a lot of very well produced chiptune music, and if you have never",
+        "heard about chiptune this page should do a good job of introducing",
+        "you to them."
+      ],
+      "link": "https://soundcloud.com/groups/chiptunes"
+
+
+    }
+  ]
+}

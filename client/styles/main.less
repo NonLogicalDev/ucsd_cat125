@@ -1,0 +1,567 @@
+@navbar-width: 300px;
+@navbar-bg-color: rgb(46,53,61);
+@navbar-brand-color: rgb(23,26,30);
+@brand-color: rgba(200, 215, 207, 1.00);
+
+@screen-lgg-min: 1408px; 
+@screen-lg-min:  1200px; 
+@screen-md-min:  992px; 
+@screen-sm-min:  768px; 
+
+@screen-collapse:    @screen-sm-min;
+@screen-collapse-nt: @screen-md-min;
+
+@navbar-selected-border-width: 5px;
+@navbar-item-padding-width: 30px;
+@navbar-subitem-indent: 10px;
+@navbar-item-border-color:      darken(@navbar-bg-color, 5%);
+
+@navbar-item-color:             lighten(@navbar-bg-color, 2%);
+@navbar-link-color:             rgba(255,0,0,0.5);
+@navbar-subitem-color:          darken(@navbar-bg-color, 2%);
+@navbar-selected-item-color:    lighten(@navbar-bg-color, 5%);
+@navbar-selected-subitem-color: lighten(@navbar-bg-color, 2%);
+
+// Scrolling fixup
+html, body { height: 100%; }
+*{box-sizing: border-box;}
+
+// Top most container that provides holy grail layout
+.dm-container {
+  display: flex;
+
+  height: 100%;
+  width: 100%;
+
+  @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+    display: block;
+  }
+
+  @media print {
+    height: auto;
+    display: block;
+    padding: 30px;
+  }
+
+
+  // Slide out button that moves with the sidebar
+  .dm-navbar-toggle {
+    display: none;
+    line-height: 24px;
+    padding: 10px;
+    background-color: rgba(46,53,61,0.8);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+      right:0;
+      transform: translateX(+100%);
+      position: absolute;
+      display: block;
+    }
+  }
+  .dm-slideout {
+    transition: all 0.5s ease;
+    @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+      transform: translateX(-100%);
+    }
+  }
+  .dm-out {
+    @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+      transform: translateX(0);
+    }
+  }
+  .dm-overlay {
+    display: none;
+  }
+  .dm-overlay-on {
+    @media (max-width: @screen-collapse-nt) {
+      padding: 0;
+      margin: 0;
+      display: block;
+      position: fixed; 
+      top:0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(46,53,61,0.8);
+      z-index: 999;
+      transition: all 0.5s ease;
+    }
+  }
+
+  // When device width is larger than collapse
+  // Reflow the flexbox to flow from top to bottom
+  @media (min-width: @screen-collapse) {
+    flex-direction: row;
+  }
+  // Otherwise flow the elements from left to right
+  @media (max-width: @screen-collapse) {
+    flex-direction: column;
+  }
+  // This is the sidebar/topbar
+  .dm-navbar {
+    @media print {
+      display: none;
+    }
+
+    // Do not allow the navbar to either scale or shrink
+    flex-grow: 0; flex-shrink: 0;
+
+    @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      z-index: 1000;
+    }
+    // If the device width is larger than collapse
+    // Give navbar a static width
+    @media (min-width: @screen-collapse) {
+      width: @navbar-width;
+    }
+    // Otherwise take up the entire width of the device
+    @media (max-width: @screen-collapse+1) {
+      width: 100%;
+    }
+    
+    background-color: @navbar-bg-color;
+
+    // Set up general rules for the items and links
+    ul, li {
+      list-style: none;
+      margin: 0px;
+      padding: 0px;
+    }
+    a {
+      color: @brand-color;
+    }
+    // Topbar holds the mobile expansion button and brandname
+    .dm-topbar {
+      padding: 10px;
+      @media (max-width: @screen-collapse) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .dm-brand-name {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2em;
+
+        color: @brand-color;
+        text-shadow: -1px 1px 0px black, -2px 2px 0px darken(@brand-color, 50%);
+      }
+      .dm-menu-rollout-toggle {
+        @media (min-width: @screen-collapse) {
+          display: none;
+        }
+        .toggle-btn {
+          width: 40px;
+          padding: 3px;
+          padding-bottom: 1px;
+          border-radius: 3px;
+
+          text-align: center;
+
+          color: #000;
+          background-color: #ffffff;
+          &:active {
+            background-color: rgba(255,255,255,0.5);
+          }
+        }
+        color: @brand-color;
+      }
+      background-color: rgba(0,0,0,0.5);
+    }
+    .dm-menu-rollout {
+      li {
+        padding: 10px;
+        padding-left: @navbar-item-padding-width;
+
+        background-color: @navbar-item-color;
+        border-bottom: 1px solid @navbar-item-border-color;
+        border-left: @navbar-selected-border-width solid @navbar-item-color;
+        color: @brand-color;
+        cursor: pointer;
+
+        &.active {
+          border-left: @navbar-selected-border-width solid green;
+        }
+
+        &:hover {
+          background-color: @navbar-selected-item-color;
+          // border-left: @navbar-selected-border-width solid red;
+          transition: all 0.5s ease;
+        }
+      }
+      ul {
+        li {
+          &:before {
+            content: "\f105";
+            font-family: FontAwesome;
+            padding-right: 10px;
+          }
+          padding-left: @navbar-item-padding-width + @navbar-subitem-indent;
+          
+          background-color: @navbar-subitem-color;
+          border-left: @navbar-selected-border-width solid @navbar-subitem-color;
+          &:hover {
+            background-color: @navbar-selected-subitem-color;
+          }
+        }
+      }
+    }
+  }
+  // The content of the website goes in here
+  .dm-content {
+    position: relative;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    .dm-mag-brand {
+      padding: 0;
+      display: none;
+      @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+        padding: 0;
+        margin: 0;
+        background-color: @navbar-brand-color;
+        display: block;
+        h1 {
+          padding: 0.4em;
+          margin: 0;
+          color: white;
+          text-shadow: -1px 1px 0px black, -2px 2px 0px white;
+          text-align: center;
+          font-size: 4em;
+        }
+      }
+      @media print {
+        padding: 0;
+        margin: 0;
+        background-color: @navbar-brand-color;
+        display: block;
+        h1 {
+          padding: 0.4em;
+          margin: 0;
+          color: white;
+          text-shadow: -1px 1px 0px black, -2px 2px 0px white;
+          text-align: center;
+          font-size: 2.5em;
+        }
+      }
+      
+    }
+
+    // Fill up the remaning part of the screen
+    flex-grow: 1;
+
+    // If device width is larger than the collapse
+    // Let the user scroll the contents this way
+    // content will be like a viewport and sidebar will stay static
+    @media (min-width: @screen-collapse) {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (min-width: @screen-collapse) and (max-width: @screen-collapse-nt) {
+      // position: static;
+      // top: 0;
+      overflow: visible;
+      height: 100%;
+      width: 100%;
+    }
+
+    @media print {
+      top: 0;
+      overflow: visible;
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    .container {
+      padding-bottom: 50px;
+      // Setting up container sizes
+      @media (min-width: @screen-sm-min) {
+        width: 100%;
+      }
+      @media (min-width: @screen-collapse) {
+        p {
+          font-size: 1.2em;
+        }
+      }
+      @media (min-width: @screen-lg-min) {
+        width: 1200px - @navbar-width;
+      }
+      @media (min-width: @screen-lgg-min) {
+        width: 1200px - @navbar-width;
+        .dm-lgg {
+          width: unit((8/12)*100, %);
+        }
+      }
+
+      @media print {
+        width: 100%;
+        p {
+          font-size: 1.0em;
+        }
+      }
+    }
+  }
+}
+
+.dm-herounit {
+  @media print {
+    display: none;
+  }
+  width: 100%;
+  position: relative;
+  padding: 0;
+  .dm-img {
+    height: 250px;
+    width: 100%;
+    @media(min-width: @screen-sm-min) {
+      height: 350px;
+    }
+    @media(min-width: @screen-md-min) {
+      height: 400px;
+    }
+    background: url('/s/assets/heroUnit.jpg') 500px center;
+  }
+
+  .notfound {
+    height: 100% !important;
+  }
+
+  .dm-overimage {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    padding: 0 20px;
+    height: 100%;
+
+    .dm-caption {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      text-align: center;
+
+      h2 {
+        display: table;
+        border: 2px solid white;
+        margin: 0 auto;
+        padding: 10px 20px;
+        font-size: 2.0em;
+        @media(max-width: @screen-sm-min ) {
+          font-size: 1.5em;
+        }
+        text-shadow: -1px 1px 1px rgba(0,0,0,0.5);
+        box-shadow: 0px 0px 100px 100px rgba(0,0,0,0.2);
+      }
+    }
+  }
+}
+
+.dm-header {
+  border-bottom: 2px dashed black;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  margin-bottom:  30px;
+  font-size: 1.6em;
+  @media(min-width: @screen-md-min) {
+    font-size: 3em;
+  }
+}
+
+.container {
+  // box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.1);
+}
+
+
+.view-container {
+  // position: relative;
+  width: 100%;
+}
+
+.view {
+  position: absolute;
+  width: 100%;
+  transition: all 1s;
+}
+
+.ng-enter {
+  transform: translateX(-100%);
+  transition: all 1s ease-in-out;
+  opacity: 0;
+}
+
+.ng-enter-active {
+  transform: translateX(0%);
+  transition: all 1s ease-in-out;
+  opacity: 100;
+}
+
+.ng-leave {
+  transform: translateX(0%);
+  transition: all 1s ease-in-out;
+  opacity: 100;
+}
+
+.ng-leave-active {
+  transform: translateX(100%);
+  transition: all 1s ease-in-out;
+  opacity: 0;
+}
+
+
+.dm-link {
+  padding: 20px;
+  padding-left: 5px;
+  .dm-thumbnail {
+    border-radius: 10px;
+  }
+
+  .dm-link-target {
+    position: relative;
+    top: 4px;
+    width: 100%;
+    font-size: 1.2em;
+    background-color: rgba(160, 0, 22, 1.00);
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  .dm-description {
+    padding-top: 14px;
+  }
+}
+
+.dm-body {
+  img {
+    width: 100%;
+    cursor: zoom-in;
+  }
+  
+  .small {
+    padding: 5px 10px;
+    background-color: rgba(0,0,0,0.02);
+    margin: 25px auto;
+    
+    // Setting up container sizes
+    @media (min-width: @screen-sm-min) {
+      width: 100%;
+    }
+    @media (min-width: @screen-collapse) {
+      max-height: 500px;
+    }
+    @media (min-width: @screen-lg-min) {
+      max-height: 600px;
+    }
+    @media (min-width: @screen-lgg-min) {
+      max-height: 700px;
+    }
+  }
+
+  .descr {
+    font-size: 1.1em;
+    line-height: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: 5px solid rgba(0,0,0,0.2);
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-right: 1px solid rgba(0,0,0,0.2);
+    background-color: white;
+    margin: 5px 0;
+    &:nth-child(1) {
+      border-radius: 10px 10px 5px 5px;
+    }
+    &:nth-child(2) {
+      border-radius: 5px 5px 10px 10px;
+    }
+    &.alone {
+      border-radius: 5px 5px 5px 5px;
+    }
+  }
+
+  .aside {
+    img {
+      width:  100%;
+      height: auto;
+    }
+    
+    background-color: rgba(0,0,0,0.02);
+    margin: 15px auto;
+    padding: 10px;
+
+    text-align: center;
+    @media (min-width: @screen-collapse) {
+      max-width:  400px;
+      &:nth-of-type(2n){
+        float: right;
+      }
+      &:nth-of-type(2n+1){
+        float: left;
+      }
+    }
+
+  }
+
+  a {
+    @media screen {
+      transition: all 0.2s linear;
+      &:hover {
+        text-decoration:none;
+        &:before {
+          opacity: 1;
+          transform: translateX(-15%);
+          transition: all 0.2s easin-in;
+        }
+        &:after {
+          opacity: 1;
+          transform: translateX(+15%);
+          transition: all 0.2s easin-in;
+        }
+      }
+      &:before {
+        display: inline-block;
+        opacity: 0;
+        transform: translateX(-300%);
+        content: "[";
+        transition: all 0.2s linear;
+      }
+      &:after {
+        display: inline-block;
+        opacity: 0;
+        transform: translateX(+300%);
+        content: "]";
+        transition: all 0.2s linear;
+      }
+    }
+  }
+}
+
+.dm-social {
+  .dm-social-btns {
+    a.dm-social-btn {
+      .dm-social-btn-text {
+        display: block;
+        line-height: 60px;
+      }
+      height: 60px;
+      width: 60px;
+      text-align: center;
+      vertical-align: center;
+      margin-left: 10px;
+      display: block;
+      border: 1px solid black;
+      border-radius: 100px;
+      text-decoration: none;
+      color: black;
+      background-color: white;
+      &:hover {
+        filter: invert(100%);
+      }
+    }
+  }
+}

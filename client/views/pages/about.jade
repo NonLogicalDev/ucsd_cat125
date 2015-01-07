@@ -1,0 +1,11 @@
+.container
+  h1.dm-header Hello There!
+
+  .dm-body(include-md="about")
+
+  hr
+  .dm-social(ng-controller="SocialController")
+    h4 You can find me here:
+    .dm-social-btns.clearfix
+      a.pull-left.dm-social-btn(href="{{item.url}}" ng-repeat="item in socialItems" ng-mouseover="track(item)")
+        span.dm-social-btn-text(class="fa fa-2x fa-{{item.icon}}")

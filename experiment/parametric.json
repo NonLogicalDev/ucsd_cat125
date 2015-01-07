@@ -1,0 +1,60 @@
+{
+  "lex": {
+    "startConditions": {
+      "INITIAL":    "// The default state",
+      "gobble":     "// Gobbles all the text",
+      "ignore":     "// Ignores all the text",
+      "line":       "// Parameter line",
+      "ident":      "// Identity state in line",
+      "ws":         "// Eat the whitespace"
+    },
+
+    "rules": [
+      [                   "```.*\\n",       "/* skip */"],
+      [                   "\\n",            "/* skip */"],
+      [                   "\\>-",           "this.pushState('line'); this.pushState('ws');"],
+      [                   "\\>\\s",         "this.pushState('line'); this.pushState('ident');"],
+      [                   "(?=.|\\n)",      "this.pushState('gobble');"],
+
+      [["gobble"],        "(?:.|\\n)+",     "return 'GOBBLE';"],
+      [["ignore"],        "(?:.)+\\n",      "this.popState();"],
+      [["ws"],            "\\s*",           "this.popState();"],
+
+      [["ident"],         "[\\w_]+(?=\\:)", "return 'IDENTITY';"],
+      [["ident"],         "[:]\\s*\\n",     "this.popState(); this.popState();"],
+      [["ident"],         "[:]",            "this.popState(); this.pushState('ws');"],
+      [["ident"],         "(?=.)",          "this.popState(); this.popState(); this.pushState('ignore');"],
+
+      [["line"],          "[\\s]*[\\n]",    "this.popState();"],
+      [["line"],          ".+",             "return 'VALUE';"],
+
+      [["*"],             "$",              "return 'EOF';"]
+    ]
+  },
+
+  "bnf": {
+    "expression": [
+      ["maybeList",                "return $1;"]
+    ],
+
+    "maybeList": [
+      ["GOBBLE EOF",               "$$ = { text: $1 };"],
+      ["assignmentList",           "$$ = { params: $1 };"],
+      ["assignmentList GOBBLE",    "$$ = { params: $1, text: $2 };"]
+    ],
+
+    "assignmentList": [
+      ["assignment",               "$$ = {}; $$[$1[0]] = $1[1];"],
+      ["assignmentList assignment","$$ = $1; $$[$2[0]] = $2[1];"]
+    ],
+
+    "assignment": [
+      ["IDENTITY multivalue",      "$$ = [$1.toLowerCase(), $2]"]
+    ],
+
+    "multivalue": [
+      ["VALUE",                    "$$ = $1"],
+      ["multivalue VALUE",         "$$ = $1 + ' ' + $2"]
+    ]
+  }
+}

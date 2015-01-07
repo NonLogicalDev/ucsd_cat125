@@ -1,0 +1,17 @@
+.container(ng-controller="LinksController")
+  h1 Helpfull Links
+
+  p.
+    On this page I am planning to aggregate links that may be of
+    interest to the reader, such as helpfull tutorials, papers
+    about graphics and programming, and links to other cool websites
+    related to my topic.
+
+  h2.dm-header Links
+
+  .well.dm-link.clearfix(ng-repeat="link in links")
+    .col-sm-3.col-xs-5
+      img.dm-thumbnail.img-responsive(src="/s/assets/{{link.thumbnail}}")
+    a.dm-link-target(href="{{link.link}}") {{link.name}}
+    .dm-description
+      p {{link.description.join("\n")}}
